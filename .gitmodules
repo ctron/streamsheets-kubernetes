@@ -1,0 +1,3 @@
+[submodule "streamsheets"]
+	path = external/streamsheets
+	url = https://github.com/eclipse/streamsheets.git

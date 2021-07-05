@@ -1,0 +1,17 @@
+apiVersion: v2
+name: streamsheets
+description: Streamsheets deployment for Kubernetes
+keywords:
+  - IoT
+
+maintainers:
+  - name: ctron
+    email: ctron@dentrassi.de
+    url: https://dentrassi.de
+
+type: application
+
+version: 0.1.0
+appVersion: 2.3.0
+
+kubeVersion: ">= 1.19.0"

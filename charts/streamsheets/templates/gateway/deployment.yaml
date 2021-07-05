@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: streamsheets-gateway
+  labels:
+    {{ include "streamsheets.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{ include "streamsheets.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{ include "streamsheets.labels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: gateway
+          image: {{ include "streamsheets.image" ( dict "root" . "image" "streamsheets-gateway" ) }}
+          imagePullPolicy: {{ include "streamsheets.image-pull-policy" . }}
+          env:
+            - name: NODE_ENV
+              value: production
