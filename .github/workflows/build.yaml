@@ -22,6 +22,6 @@ jobs:
           submodules: recursive
 
       - name: Login to github container repository
-        run: echo "${{ secrets.GHCR_TOKEN }}" | docker login https://ghcr.io -u "${{ github.actor }}" --password-stdin
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login https://ghcr.io -u "${{ github.actor }}" --password-stdin
 
       - run: make
