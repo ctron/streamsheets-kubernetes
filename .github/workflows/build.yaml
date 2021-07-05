@@ -37,7 +37,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
-      - run: yarn install --forzen-lockfile
-      - run: yarn workspace @cedalo/gateway build
-      - run: yarn workspace @cedalo/webui run local-build
-      - run: node scripts/build.js --name ctron/streamsheets --tag ci
+      - run: cd external/streamsheets && yarn install --forzen-lockfile
+      - run: cd external/streamsheets && yarn workspace @cedalo/gateway build
+      - run: cd external/streamsheets && yarn workspace @cedalo/webui run local-build
+      - run: cd external/streamsheets && node scripts/build.js --name ctron/streamsheets --tag ci
