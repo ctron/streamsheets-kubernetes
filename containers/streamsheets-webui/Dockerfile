@@ -1,5 +1,7 @@
 FROM streamsheets-core
 
+LABEL org.opencontainers.image.source="https://github.com/ctron/streamsheets-kubernetes"
+
 WORKDIR /streamsheets
 
 RUN yarn workspace @cedalo/webui build
