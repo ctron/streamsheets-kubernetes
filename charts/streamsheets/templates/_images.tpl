@@ -7,5 +7,5 @@
 {{- end -}}
 
 {{- define "streamsheets.image-pull-policy" -}}
-IfNotPresent
+{{- .Values.images.pullPolicy | default "IfNotPresent" -}}
 {{- end -}}

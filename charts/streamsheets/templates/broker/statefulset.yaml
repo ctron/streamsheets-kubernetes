@@ -1,0 +1,64 @@
+# FIXME: should be a stateful set
+{{ $ref := ( dict "root" . "name" "broker" ) }}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "streamsheets.name" $ref }}
+  labels:
+    {{ include "streamsheets.labels" $ref | nindent 4 }}
+spec:
+  replicas: 1
+  serviceName: {{ include "streamsheets.name" $ref }}
+  selector:
+    matchLabels:
+      {{ include "streamsheets.selectorLabels" $ref | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{ include "streamsheets.labels" $ref | nindent 8 }}
+    spec:
+      initContainers:
+        - name: create-pw-file
+          image: docker.io/eclipse-mosquitto:2
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "streamsheets.name" $ref }}
+                  key: USERNAME
+            - name: PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "streamsheets.name" $ref }}
+                  key: PASSWORD
+          command:
+            - mosquitto_passwd
+            - -c
+            - -b
+            - /mosquitto/secrets/pw.txt
+            - $(USERNAME)
+            - $(PASSWORD)
+          volumeMounts:
+            - mountPath: /mosquitto/secrets
+              name: secrets
+
+      containers:
+        - name: gateway
+          image: docker.io/eclipse-mosquitto:2
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: mqtt
+              containerPort: 1883
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /mosquitto/config
+              name: config
+            - mountPath: /mosquitto/secrets
+              name: secrets
+      volumes:
+        - name: config
+          configMap:
+            name: {{ include "streamsheets.name" $ref }}
+        - name: secrets
+          emptyDir: {}

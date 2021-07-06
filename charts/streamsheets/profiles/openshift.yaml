@@ -1,0 +1,16 @@
+ingress:
+  annotations:
+    route.openshift.io/termination: "edge"
+
+mongodb:
+  podSecurityContext:
+    enabled: false
+  containerSecurityContext:
+    enabled: false
+
+redis:
+  master:
+    podSecurityContext:
+      enabled: false
+    containerSecurityContext:
+      enabled: false

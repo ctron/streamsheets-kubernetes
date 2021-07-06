@@ -1,0 +1,14 @@
+{{ $ref := ( dict "root" . "name" "broker" ) }}
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: {{ include "streamsheets.name" $ref }}
+  labels:
+  {{- include "streamsheets.labels" $ref | nindent 4 }}
+data:
+  mosquitto.conf: |
+    allow_anonymous false
+    password_file /mosquitto/secrets/pw.txt
+
+    listener 1883
+    protocol mqtt

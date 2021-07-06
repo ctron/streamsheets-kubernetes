@@ -1,4 +1,33 @@
 
 images:
-  repository: cedalo
-  # tag:
+  repository: ghcr.io/ctron
+  tag: latest
+  pullPolicy: Always
+
+ingress:
+  domain: my-apps.domain
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+
+internalBroker:
+  username: internal
+  password: internal123456
+
+mongodb:
+  image:
+    registry: gcr.io
+    repository: bitnami-containers/mongodb
+  auth:
+    rootPassword: admin123456
+    database: streamsheets
+    username: streamsheets
+    password: streamsheets123456
+  useStatefulSet: true
+
+redis:
+  image:
+    registry: gcr.io
+    repository: bitnami-containers/redis
+  architecture: standalone
+  auth:
+    enabled: false # streamsheets doesn't support authenticated redis

@@ -1,0 +1,21 @@
+{{ $ref := ( dict "root" . "name" "gateway" ) }}
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: {{ include "streamsheets.name" $ref }}
+  labels:
+    {{- include "streamsheets.labels" $ref | nindent 4 }}
+data:
+  gateway.json: |
+    {
+      "app": {
+        "appUrl": "{{ include "streamsheets.app-url" . }}"
+      },
+      "http": {
+        "port": 8080,
+        "ipaddress": "0.0.0.0"
+      },
+      "auth": {
+        "jwtSecret": {{ randAlphaNum 64 | quote }}
+      }
+    }

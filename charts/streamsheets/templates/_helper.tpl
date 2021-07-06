@@ -1,8 +1,14 @@
 {{/*
-Expand the name of the chart.
+Expand the name of the chart: (dict)
+* root - .
+* name - the name of the resource
 */}}
 {{- define "streamsheets.name" -}}
-{{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
+{{- if .name -}}
+{{- printf "%s-%s" (default .root.Chart.Name .root.Values.nameOverride ) .name | trunc 63 | trimSuffix "-" }}
+{{- else -}}
+{{- default .root.Chart.Name .root.Values.nameOverride | trunc 63 | trimSuffix "-" }}
+{{- end -}}
 {{- end }}
 
 {{/*
@@ -13,21 +19,27 @@ Create chart name and version as used by the chart label.
 {{- end }}
 
 {{/*
-Common labels
+Common labels: (dict)
+* root - .
+* name - name
 */}}
 {{- define "streamsheets.labels" -}}
-helm.sh/chart: {{ include "streamsheets.chart" . }}
+helm.sh/chart: {{ include "streamsheets.chart" .root }}
 {{ include "streamsheets.selectorLabels" . }}
-{{- if .Chart.AppVersion }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- if .root.Chart.AppVersion }}
+app.kubernetes.io/version: {{ .root.Chart.AppVersion | quote }}
 {{- end }}
-app.kubernetes.io/managed-by: {{ .Release.Service }}
+app.kubernetes.io/managed-by: {{ .root.Release.Service }}
+{{- with .component -}}app.kubernetes.io/component{{ . }}{{- end -}}
+{{- with .root.Values.partOf -}}app.kubernetes.io/part-of{{ . }}{{- end -}}
 {{- end }}
 
 {{/*
 Selector labels
+* root - .
+* name - name
 */}}
 {{- define "streamsheets.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "streamsheets.name" . }}
-app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/instance: {{ .root.Release.Name }}
 {{- end }}

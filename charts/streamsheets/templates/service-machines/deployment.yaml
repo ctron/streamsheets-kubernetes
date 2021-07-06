@@ -1,4 +1,4 @@
-{{ $ref := ( dict "root" . "name" "gateway" ) }}
+{{ $ref := ( dict "root" . "name" "service-machines" ) }}
 {{ $brokerRef := ( dict "root" . "name" "broker" ) }}
 apiVersion: apps/v1
 kind: Deployment
@@ -19,14 +19,14 @@ spec:
         {{ include "streamsheets.labels" $ref | nindent 8 }}
     spec:
       containers:
-        - name: gateway
-          image: {{ include "streamsheets.image" ( dict "root" . "image" "streamsheets-gateway" ) }}
+        - name: service
+          image: {{ include "streamsheets.image" ( dict "root" . "image" "streamsheets-service-machines" ) }}
           imagePullPolicy: {{ include "streamsheets.image-pull-policy" . }}
           env:
             - name: NODE_ENV
               value: production
-            - name: GATEWAY_SERVICE_LOG_LEVEL
-              value: debug
+            - name: MACHINE_SERVICE_LOG_LEVEL
+              value: info
             - name: STREAMSHEETS_LOG_LEVEL
               value: debug
             - name: MONGO_DATABASE
@@ -39,8 +39,6 @@ spec:
               value: {{ .Values.mongodb.auth.username }}
             - name: MONGO_PASSWORD
               value: {{ .Values.mongodb.auth.password }}
-            - name: STREAMSHEETS_GATEWAY_CONFIGURATION_PATH
-              value: /etc/streamsheets/config/gateway.json
             - name: MESSAGE_BROKER_URL
               value: mqtt://{{- include "streamsheets.name" $brokerRef -}}:1883
             - name: MESSAGE_BROKER_KEEP_ALIVE
@@ -55,28 +53,3 @@ spec:
                 secretKeyRef:
                   name: {{ include "streamsheets.name" $brokerRef }}
                   key: PASSWORD
-
-          ports:
-            - name: gateway
-              containerPort: 8080
-              protocol: TCP
-
-          volumeMounts:
-            - mountPath: /.logs
-              name: logs
-            - mountPath: /streamsheets/backups
-              name: backup
-            - mountPath: /streamsheets/plugins
-              name: plugins
-            - mountPath: /etc/streamsheets/config
-              name: config
-      volumes:
-        - name: logs
-          emptyDir: {}
-        - name: backup
-          emptyDir: {}
-        - name: plugins
-          emptyDir: {}
-        - name: config
-          configMap:
-            name: {{ include "streamsheets.name" $ref }}

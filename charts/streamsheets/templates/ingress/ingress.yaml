@@ -1,0 +1,27 @@
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: {{ include "streamsheets.name" (dict "root" .) }}
+  labels:
+    {{- include "streamsheets.labels" (dict "root" .) | nindent 4 }}
+  annotations:
+    {{- .Values.ingress.annotations | toYaml | nindent 4 }}
+spec:
+  rules:
+    - host: {{ include "streamsheets.app-host" . }}
+      http:
+        paths:
+          - path: /request
+            pathType: Prefix
+            backend:
+              service:
+                 name: {{ include "streamsheets.name" (dict "root" . "name" "service-stream" ) }}
+                 port:
+                   name: webui
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                  name: {{ include "streamsheets.name" (dict "root" . "name" "gateway" ) }}
+                  port:
+                    name: gateway

@@ -1,0 +1,17 @@
+{{ $ref := ( dict "root" . "name" "broker" ) }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "streamsheets.name" $ref }}
+  labels:
+    {{- include "streamsheets.labels" $ref | nindent 4 }}
+spec:
+  type: ClusterIP
+
+  selector:
+    {{ include "streamsheets.labels" $ref | nindent 4 }}
+
+  ports:
+    - name: mqtt
+      port: 1883
+      targetPort: mqtt
