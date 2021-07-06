@@ -7,7 +7,7 @@ WORKDIR /streamsheets
 RUN yarn workspace @cedalo/gateway build
 RUN yarn workspace @cedalo/webui build
 
-RUN cp -r packages/webui/build /streamsheets/packages/gateway/public
+RUN cp -r packages/webui/build/* /streamsheets/packages/gateway/public/
 
 ENV NODE_ENV="production"
 
