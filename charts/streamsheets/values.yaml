@@ -1,13 +1,15 @@
 
 images:
   repository: ghcr.io/ctron
-  tag: latest
+  # tag allows to specify a specific tag, defaults to the app-version.
+  # tag: latest
+  # pullPolicy allows to specify a pull policy, defaults to "Always" for "latest" tags, and "IfNotPresent" otherwise.
   pullPolicy: Always
 
 deployExamples: true
 
 defaults:
-  logLevel: debug
+  logLevel: info
 
 ingress:
   # domain is the base domain of your cluster, so that the ingress hostname can be constructed as `streamsheets-<namespace><domain>`.
