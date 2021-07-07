@@ -7,5 +7,8 @@
 {{- end -}}
 
 {{- define "streamsheets.image-pull-policy" -}}
-{{- .Values.images.pullPolicy | default "IfNotPresent" -}}
-{{- end -}}
+{{- with .Values.images.pullPolicy }}{{ . }}
+{{- else }}
+{{- if (eq (include "streamsheets.image-tag" .) "latest") }}Always{{ else }}IfNotPresent{{ end }}
+{{- end }}
+{{- end }}
