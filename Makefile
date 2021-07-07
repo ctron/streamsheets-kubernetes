@@ -2,7 +2,7 @@
 
 all: build tag push
 
-CONTAINERS = core gateway service-graphs service-machines service-streams
+CONTAINERS = base core gateway service-graphs service-machines service-streams
 
 .PHONY: build
 build:

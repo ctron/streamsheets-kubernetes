@@ -2,16 +2,21 @@ FROM streamsheets-core as builder
 
 WORKDIR /streamsheets
 
+#
+# Build the gateway and web UI, which is served by the gateway
+#
+
+RUN yarn install --frozen-lockfile
 RUN yarn workspace @cedalo/gateway build
 RUN yarn workspace @cedalo/webui build
 
-FROM registry.access.redhat.com/ubi8
+FROM streamsheets-base
 
 LABEL org.opencontainers.image.source="https://github.com/ctron/streamsheets-kubernetes"
 
-RUN dnf module -y install nodejs:14/development
-RUN dnf install -y npm
-RUN npm install --global yarn
+#
+# Assembling "only" the necessary components, reduces the overall size by around 700MiB
+#
 
 RUN mkdir /streamsheets
 COPY --from=builder /streamsheets/.yarnrc /streamsheets/package.json /streamsheets/yarn.lock /streamsheets/
