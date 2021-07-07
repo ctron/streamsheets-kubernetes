@@ -24,4 +24,18 @@ jobs:
       - name: Login to github container repository
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login https://ghcr.io -u "${{ github.actor }}" --password-stdin
 
-      - run: make
+      - name: Set version
+        if: ${{github.head_ref == ''}}
+        id: version
+        run: |
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+          [ "$VERSION" == "main" ] && VERSION=latest
+          echo VERSION=$VERSION
+          echo "::set-output name=version::$VERSION"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - run: make build
+
+      - if: ${{github.head_ref == ''}}
+        run: make tag push
