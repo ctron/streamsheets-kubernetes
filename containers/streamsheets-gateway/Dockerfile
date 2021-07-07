@@ -19,7 +19,7 @@ LABEL org.opencontainers.image.source="https://github.com/ctron/streamsheets-kub
 #
 
 RUN mkdir /streamsheets
-COPY --from=builder /streamsheets/.yarnrc /streamsheets/package.json /streamsheets/yarn.lock /streamsheets/
+COPY --from=builder /streamsheets/package.json /streamsheets/yarn.lock /streamsheets/
 COPY --from=builder /streamsheets/packages /streamsheets/packages
 
 WORKDIR /streamsheets

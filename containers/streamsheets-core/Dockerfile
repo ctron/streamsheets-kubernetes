@@ -10,6 +10,6 @@ LABEL org.opencontainers.image.source="https://github.com/ctron/streamsheets-kub
 #
 
 RUN mkdir /streamsheets
-COPY /external/streamsheets/.yarnrc /external/streamsheets/package.json /external/streamsheets/yarn.lock /streamsheets/
+COPY /external/streamsheets/package.json /external/streamsheets/yarn.lock /streamsheets/
 COPY /external/streamsheets/packages /streamsheets/packages
 
