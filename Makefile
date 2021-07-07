@@ -3,6 +3,7 @@
 all: build tag push
 
 CONTAINERS = base core gateway service-graphs service-machines service-streams
+VERSION ?= "latest"
 
 .PHONY: build
 build:
@@ -13,11 +14,11 @@ build:
 .PHONY: tag
 tag:
 	for i in $(CONTAINERS); do \
-  		podman tag streamsheets-$$i ghcr.io/ctron/streamsheets-$$i:latest; \
+  		podman tag streamsheets-$$i ghcr.io/ctron/streamsheets-$$i:$(VERSION); \
   	done
 
 .PHONY: push
 push:
 	for i in $(CONTAINERS); do \
-  		podman push ghcr.io/ctron/streamsheets-$$i:latest; \
+  		podman push ghcr.io/ctron/streamsheets-$$i:$(VERSION); \
   	done
