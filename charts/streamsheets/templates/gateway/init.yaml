@@ -1,0 +1,10 @@
+{{ $ref := ( dict "root" . "name" "init" ) }}
+kind: Secret
+apiVersion: v1
+metadata:
+  name: {{ include "streamsheets.name" $ref }}
+  labels:
+    {{- include "streamsheets.labels" $ref | nindent 4 }}
+data:
+  init.json: |
+    {{- tpl ( .Files.Get "config/gateway/init.json" ) . | b64enc | nindent 4 }}

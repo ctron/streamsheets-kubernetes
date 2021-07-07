@@ -9,7 +9,7 @@ spec:
   type: ClusterIP
 
   selector:
-    {{ include "streamsheets.labels" $ref | nindent 4 }}
+    {{- include "streamsheets.labels" $ref | nindent 4 }}
 
   ports:
     - name: gateway

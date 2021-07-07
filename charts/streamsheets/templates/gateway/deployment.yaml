@@ -26,9 +26,9 @@ spec:
             - name: NODE_ENV
               value: production
             - name: GATEWAY_SERVICE_LOG_LEVEL
-              value: debug
+              value: {{ .Values.defaults.logLevel }}
             - name: STREAMSHEETS_LOG_LEVEL
-              value: debug
+              value: {{ .Values.defaults.logLevel }}
             - name: MONGO_DATABASE
               value: {{ .Values.mongodb.auth.database }}
             - name: MONGO_HOST
@@ -39,6 +39,10 @@ spec:
               value: {{ .Values.mongodb.auth.username }}
             - name: MONGO_PASSWORD
               value: {{ .Values.mongodb.auth.password }}
+            - name: REDIS_HOST
+              value: {{ include "streamsheets.name" ( dict "root" . "name" "redis-master") }}
+            - name: REDIS_PORT
+              value: "6379"
             - name: STREAMSHEETS_GATEWAY_CONFIGURATION_PATH
               value: /etc/streamsheets/config/gateway.json
             - name: MESSAGE_BROKER_URL
@@ -55,6 +59,10 @@ spec:
                 secretKeyRef:
                   name: {{ include "streamsheets.name" $brokerRef }}
                   key: PASSWORD
+            {{- if .Values.deployExamples }}
+            - name: DEPLOY_EXAMPLES_FROM
+              value: /etc/streamsheets/init/init.json
+            {{- end }}
 
           ports:
             - name: gateway
@@ -70,6 +78,10 @@ spec:
               name: plugins
             - mountPath: /etc/streamsheets/config
               name: config
+            {{- if .Values.deployExamples }}
+            - mountPath: /etc/streamsheets/init
+              name: init
+            {{- end }}
       volumes:
         - name: logs
           emptyDir: {}
@@ -80,3 +92,8 @@ spec:
         - name: config
           configMap:
             name: {{ include "streamsheets.name" $ref }}
+        {{- if .Values.deployExamples }}
+        - name: init
+          secret:
+            secretName: {{ include "streamsheets.name" ( dict "root" . "name" "init" ) }}
+        {{- end }}

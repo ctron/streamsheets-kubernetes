@@ -25,8 +25,10 @@ spec:
           env:
             - name: NODE_ENV
               value: production
+            - name: STREAMSHEETS_STREAMS_SERVICE_LOG_LEVEL
+              value: {{ .Values.defaults.logLevel }}
             - name: STREAMSHEETS_LOG_LEVEL
-              value: debug
+              value: {{ .Values.defaults.logLevel }}
             - name: MONGO_DATABASE
               value: {{ .Values.mongodb.auth.database }}
             - name: MONGO_HOST

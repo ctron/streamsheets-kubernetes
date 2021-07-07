@@ -4,6 +4,11 @@ images:
   tag: latest
   pullPolicy: Always
 
+deployExamples: true
+
+defaults:
+  logLevel: debug
+
 ingress:
   domain: my-apps.domain
   annotations:

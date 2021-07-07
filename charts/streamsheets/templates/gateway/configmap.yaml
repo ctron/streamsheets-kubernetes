@@ -7,15 +7,4 @@ metadata:
     {{- include "streamsheets.labels" $ref | nindent 4 }}
 data:
   gateway.json: |
-    {
-      "app": {
-        "appUrl": "{{ include "streamsheets.app-url" . }}"
-      },
-      "http": {
-        "port": 8080,
-        "ipaddress": "0.0.0.0"
-      },
-      "auth": {
-        "jwtSecret": {{ randAlphaNum 64 | quote }}
-      }
-    }
+    {{- tpl ( .Files.Get "config/gateway/gateway.json" ) . | nindent 4 }}
