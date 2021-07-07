@@ -12,8 +12,12 @@ on:
 
 jobs:
 
-  check:
+  build:
     runs-on: ubuntu-20.04
+
+    env:
+      # required by some Streamsheets build steps
+      TRAVIS_BUILD_NUMBER: ${{ github.run_number }}
 
     steps:
 
