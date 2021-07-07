@@ -69,6 +69,14 @@ spec:
               containerPort: 8080
               protocol: TCP
 
+          readinessProbe:
+            httpGet:
+              port: 8080
+
+          livenessProbe:
+            httpGet:
+              port: 8080
+
           volumeMounts:
             - mountPath: /.logs
               name: logs
