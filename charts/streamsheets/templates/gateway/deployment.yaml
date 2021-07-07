@@ -61,7 +61,7 @@ spec:
                   key: PASSWORD
             {{- if .Values.deployExamples }}
             - name: DEPLOY_EXAMPLES_FROM
-              value: /etc/streamsheets/init/init.json
+              value: /etc/streamsheets/init
             {{- end }}
 
           ports:
