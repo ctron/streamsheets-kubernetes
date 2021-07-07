@@ -1,7 +1,11 @@
 {{- define "streamsheets.app-host" -}}
-streamsheets-{{ .Release.Namespace}}{{ .Values.ingress.domain -}}
+    {{- with .Values.ingress.host -}}
+        {{- . -}}
+    {{- else -}}
+        streamsheets-{{ .Release.Namespace}}{{ .Values.ingress.domain -}}
+    {{- end }}
 {{- end }}
 
 {{- define "streamsheets.app-url" -}}
-https://{{ include "streamsheets.app-host" . -}}
+{{- .Values.ingress.protocol -}}://{{ include "streamsheets.app-host" . -}}
 {{- end }}

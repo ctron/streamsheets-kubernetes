@@ -1,6 +1,11 @@
 apiVersion: v2
 name: streamsheets
 description: Streamsheets deployment for Kubernetes
+icon: https://github.com/eclipse/streamsheets/raw/master/assets/title.png
+home: https://github.com/ctron/streamsheets-kubernetes
+sources:
+  - https://github.com/ctron/streamsheets-kubernetes
+  - https://github.com/eclipse/streamsheets
 keywords:
   - IoT
 

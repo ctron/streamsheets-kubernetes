@@ -10,7 +10,11 @@ defaults:
   logLevel: debug
 
 ingress:
+  # domain is the base domain of your cluster, so that the ingress hostname can be constructed as `streamsheets-<namespace><domain>`.
   domain: my-apps.domain
+  # host is an alternate way to explicitly configure the hostname of the streamsheets ingress route.
+  # host: streamsheets.my-apps.domain
+  protocol: https
   annotations:
     kubernetes.io/ingress.class: "nginx"
 
