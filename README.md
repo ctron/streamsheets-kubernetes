@@ -39,5 +39,5 @@ You can deploy this to Kubernetes like this:
 
 For OpenShift, there is an out-of-the-box profile to use:
 
-    helm install streamsheets --repo https://ctron.github.io/helm-charts streamsheets -f charts/streamsheets/profiles/openshift.yaml --set ingress.domain=.apps.my.cluster
+    helm install streamsheets --repo https://ctron.github.io/helm-charts streamsheets -f https://raw.githubusercontent.com/ctron/streamsheets-kubernetes/main/charts/streamsheets/profiles/openshift.yaml --set ingress.domain=.apps.my.cluster
 
