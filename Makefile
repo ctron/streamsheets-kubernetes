@@ -24,5 +24,5 @@ push:
   		podman push $(CONTAINER_REGISTRY)/streamsheets-$$i:$(VERSION); \
   	done
 
-copy-helm:
+sync-helm:
 	rsync -av charts/streamsheets ~/git/helm-charts/charts/
