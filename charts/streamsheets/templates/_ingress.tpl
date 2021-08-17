@@ -2,7 +2,7 @@
     {{- with .Values.ingress.host -}}
         {{- . -}}
     {{- else -}}
-        streamsheets-{{ .Release.Namespace}}{{ .Values.ingress.domain -}}
+        streamsheets-{{ .Release.Namespace }}{{ .Values.ingress.domain | default .Values.global.domain -}}
     {{- end }}
 {{- end }}
 

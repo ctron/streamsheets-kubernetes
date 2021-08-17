@@ -1,4 +1,8 @@
 
+global:
+  # domain is the base domain of your cluster, so that the ingress hostname can be constructed as `streamsheets-<namespace><domain>`.
+  domain: .my-apps.domain
+
 images:
   repository: ghcr.io/ctron
   # tag allows to specify a specific tag, defaults to the app-version.
@@ -12,8 +16,8 @@ defaults:
   logLevel: info
 
 ingress:
-  # domain is the base domain of your cluster, so that the ingress hostname can be constructed as `streamsheets-<namespace><domain>`.
-  domain: my-apps.domain
+  # domain allows to override the global domain.
+  # domain: .my-apps.domain
   # host is an alternate way to explicitly configure the hostname of the streamsheets ingress route.
   # host: streamsheets.my-apps.domain
   protocol: https
