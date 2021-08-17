@@ -90,6 +90,12 @@ spec:
             - mountPath: /etc/streamsheets/init
               name: init
             {{- end }}
+
+          {{- with .Values.gateway.resources }}
+          resources:
+            {{- . | toYaml | nindent 12 }}
+          {{- end }}
+
       volumes:
         - name: logs
           emptyDir: {}

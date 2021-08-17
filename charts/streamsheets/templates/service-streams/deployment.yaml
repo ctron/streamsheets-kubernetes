@@ -57,6 +57,12 @@ spec:
                 secretKeyRef:
                   name: {{ include "streamsheets.name" $brokerRef }}
                   key: PASSWORD
+
+          {{- with .Values.serviceStreams.resources }}
+          resources:
+            {{- . | toYaml | nindent 12 }}
+          {{- end }}
+
           volumeMounts:
             - mountPath: /.logs
               name: logs

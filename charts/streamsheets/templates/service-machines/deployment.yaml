@@ -57,3 +57,8 @@ spec:
                 secretKeyRef:
                   name: {{ include "streamsheets.name" $brokerRef }}
                   key: PASSWORD
+
+          {{- with .Values.serviceMachines.resources }}
+          resources:
+            {{- . | toYaml | nindent 12 }}
+          {{- end }}

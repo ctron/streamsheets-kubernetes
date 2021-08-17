@@ -28,6 +28,18 @@ internalBroker:
   username: internal
   password: internal123456
 
+gateway:
+  resources: {}
+
+serviceGraphs:
+  resources: {}
+
+serviceMachines:
+  resources: {}
+
+serviceStreams:
+  resources: {}
+
 mongodb:
   image:
     registry: gcr.io
