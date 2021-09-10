@@ -1,5 +1,5 @@
 {{ $ref := ( dict "root" . "name" "init" ) }}
-{{- if .Values.initialize.enabled }}
+{{- if and .Values.initialize.enabled ( empty .Values.initialize.secretName ) }}
 kind: Secret
 apiVersion: v1
 metadata:
@@ -7,10 +7,6 @@ metadata:
   labels:
     {{- include "streamsheets.labels" $ref | nindent 4 }}
 data:
-{{- with.Values.initialize.json }}
-  init.json: {{ . | quote }}
-{{- else -}}
   init.json: |
     {{- tpl ( .Files.Get "config/gateway/init.json" ) . | b64enc | nindent 4 }}
-{{- end }}
 {{- end }}

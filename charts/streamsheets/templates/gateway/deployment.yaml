@@ -86,7 +86,7 @@ spec:
               name: plugins
             - mountPath: /etc/streamsheets/config
               name: config
-            {{- if .Values.deployExamples }}
+            {{- if .Values.initialize.enabled }}
             - mountPath: /etc/streamsheets/init
               name: init
             {{- end }}
@@ -106,8 +106,8 @@ spec:
         - name: config
           configMap:
             name: {{ include "streamsheets.name" $ref }}
-        {{- if .Values.deployExamples }}
+        {{- if .Values.initialize.enabled }}
         - name: init
           secret:
-            secretName: {{ include "streamsheets.name" ( dict "root" . "name" "init" ) }}
+            secretName: {{ with .Values.initialize.secretName }}{{.}}{{else}}{{ include "streamsheets.name" ( dict "root" . "name" "init" ) }}{{end}}
         {{- end }}

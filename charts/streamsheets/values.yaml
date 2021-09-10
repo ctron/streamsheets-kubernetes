@@ -13,9 +13,8 @@ images:
 initialize:
   # enabled is a flag which controls if initial configuration will be deployed
   enabled: true
-  # json is a field which may contain some initialization data. If none is provided and the
-  # initialization is enabled, some default data will be used.
-  # json: <init json>
+  # secretName is the name of a secret which should be used instead of some default example data
+  # secretName: my-secret
 
 defaults:
   logLevel: info
