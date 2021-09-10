@@ -18,6 +18,8 @@ spec:
       labels:
         {{ include "streamsheets.labels" $ref | nindent 8 }}
     spec:
+      initContainers:
+        {{- include "streamsheets.wait-for-database" | nindent 8 }}
       containers:
         - name: service
           image: {{ include "streamsheets.image" ( dict "root" . "image" "streamsheets-service-machines" ) }}
