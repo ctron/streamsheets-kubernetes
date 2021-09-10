@@ -59,7 +59,7 @@ spec:
                 secretKeyRef:
                   name: {{ include "streamsheets.name" $brokerRef }}
                   key: PASSWORD
-            {{- if .Values.deployExamples }}
+            {{- if .Values.initialize.enabled }}
             - name: DEPLOY_EXAMPLES_FROM
               value: /etc/streamsheets/init
             {{- end }}

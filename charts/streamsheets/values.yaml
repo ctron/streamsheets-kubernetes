@@ -10,7 +10,12 @@ images:
   # pullPolicy allows to specify a pull policy, defaults to "Always" for "latest" tags, and "IfNotPresent" otherwise.
   pullPolicy: Always
 
-deployExamples: true
+initialize:
+  # enabled is a flag which controls if initial configuration will be deployed
+  enabled: true
+  # json is a field which may contain some initialization data. If none is provided and the
+  # initialization is enabled, some default data will be used.
+  # json: <init json>
 
 defaults:
   logLevel: info
