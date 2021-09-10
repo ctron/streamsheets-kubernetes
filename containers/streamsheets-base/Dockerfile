@@ -6,6 +6,7 @@ LABEL org.opencontainers.image.source="https://github.com/ctron/streamsheets-kub
 # This container holds all the basic NodeJS components that we need later on.
 #
 
+RUN dnf install -y nc
 RUN dnf module -y install nodejs:14/development
 RUN dnf install -y npm
 RUN npm install --global yarn
